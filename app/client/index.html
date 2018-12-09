@@ -1,0 +1,86 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Supply monitoring system</title>
+    <link rel="icon" href="favicon.png" type="image/gif">
+
+    <!-- require jquery and bootstrap scripts -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+    <!-- adding style here -->
+    <style type="text/css">
+      header{
+        background-color: linen;
+        font-size:20px;
+        padding:15px;
+      }
+      #body{
+        margin-left:3%;
+        margin-right:3%;
+      }
+      .form-control{
+        margin: 8px;
+      }
+      #right_header{
+        width:20%;
+        font-size:15px;
+        margin-right:0px;
+      }
+      #left_header{
+        margin-left:0;
+        width:40%;
+        display:inline-block;
+      }
+      #right_link{
+        width:20%;
+        font-size:15px;
+        margin-right:0px;
+      }
+      #id {
+        width:49%;
+        display: inline-block;
+      }
+      table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+      }
+      </style>
+  </head>
+  <body ng-app="application" ng-controller="appController">
+    <header class="my-header">
+      <div id="left_header">Supply monitoring system, Luxoft site, December,8th</div>
+      <i id="right_header">Supply monitoring system on the Hyperledger Fabric.</i>
+    </header>
+
+    <div id="body">
+     
+
+      <div>
+       <b id="right_header">Are you: </b>
+       <br/>
+       <br/>
+      </div>
+
+      <div class="form-group">
+       <b id="right_header"><a id="right_link" href="intendant.html"> Intendant</a></b>
+      </div>
+
+      <div class="form-group">
+      <b id="right_header"><a id="right_link" href="deliveryman.html"> Deliveryman</a></b>
+      </div>
+
+      <div class="form-group">
+      <b id="right_header"><a id="right_link" href="fighter.html"> Fighter</a></b>
+      </div>
+    </div>
+  </body>
+    <!-- requiring the angular page -->
+    <script type="text/javascript" src="app.js"> </script>
+</html>

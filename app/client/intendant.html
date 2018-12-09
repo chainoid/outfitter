@@ -1,0 +1,185 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Intendant Suite</title>
+  <link rel="icon" href="favicon.png" type="image/gif">
+
+  <!-- require jquery and bootstrap scripts -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="styles/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+  <!-- adding style here -->
+  <style type="text/css">
+    header {
+      background-color: rgb(155, 228, 177);
+      font-size: 20px;
+      padding: 15px;
+    }
+
+    #body {
+      margin-left: 3%;
+      margin-right: 3%;
+    }
+
+    .form-control {
+      margin: 8px;
+    }
+
+    #right_header {
+      width: 20%;
+      font-size: 15px;
+      margin-right: 0px;
+    }
+
+    #left_header {
+      margin-left: 0;
+      width: 40%;
+      display: inline-block;
+    }
+
+    #id {
+      width: 49%;
+      display: inline-block;
+    }
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    .input-field {
+      width: 200px;
+      padding: 6px 1px;
+      margin-left: 0px;
+    }
+  </style>
+</head>
+
+<body ng-app="application" ng-controller="appController">
+  <header class="my-header">
+    <div id="left_header">Supply monitoring system. Intendant's Suite</div>
+    <i id="right_header">The scenario of Intendant activities</i>
+  </header>
+
+  <div id="body">
+
+
+    <!--  Get all groups from repository-->
+    <div class="form-group">
+      <label>Query All Groups in Squadrone</label>
+      <p><input id="queryAllGroups" type="submit" value="Query Group" class="btn btn-primary" ng-click="queryAllGroups()"></p>
+    </div>
+
+    <table id="all_groups" class="table" align="center">
+      <tr>
+        <th>ID</th>
+        <th>GroupName</th>
+        <th>GroupDescription</th>
+      </tr>
+      <tr ng-repeat="group in all_groups">
+        <td>{{group.Key}}</td>
+        <td>{{group.groupName}}</td>
+        <td>{{group.description}}</td>
+      </tr>
+    </table>
+
+    <!--  Add new group into repository-->
+    <div class="form-group">
+      <label>Add new group into squadrone</label><br>
+      <h5 style="color:red;margin-bottom:2%" id="error_add_group">Error: Please enter a valid group data.</h5>
+      <h5 style="color:green;margin-bottom:2%" id="success_add_group">The new croup added successfully.</h5>
+      Enter a group name: <input id="groupName" class="form-control input-field" type="text" placeholder="Ex: "
+        ng-model="newGroup.groupName">
+      Enter a description: <input id="groupDesc" class="form-control input-field" type="text" placeholder="Ex: Description"
+        ng-model="newGroup.description">
+      <input id="addGroup" type="submit" value="Add Group" class="btn btn-primary" ng-click="addGroup()">
+    </div>
+
+    <!--  Query all students in college-->
+    <div class="form-group">
+      <label>All Fighters in Squadrone</label>
+      <p><input id="queryAllStudents" type="submit" value="Query fighters" class="btn btn-primary" ng-click="queryAllStudents()"></p>
+    </div>
+
+    <table id="all_students" class="table" align="center">
+      <tr>
+        <th>ID</th>
+        <th>Fighter Id</th>
+        <th>Fighter Name</th>
+        <th>Group</th>
+        <th>Description</th>
+        <th>Register TS</th>
+        <th>Test Record</th>
+      </tr>
+      <tr ng-repeat="student in all_students">
+        <td>{{student.Key}}</td>
+        <td>{{student.studentId}}</td>
+        <td>{{student.studentName}}</td>
+        <td>{{student.groupName}}</td>
+        <td>{{student.description}}</td>
+        <td>{{student.registerTS}}</td>
+        <td> Test Record </td>
+      </tr>
+    </table>
+
+    <!--  Add the student into repository-->
+    <div class="form-group">
+      <label>Add fighter into repository</label><br>
+      <h5 style="color:red;margin-bottom:2%" id="error_add_student">Error: Please enter a valid fighter data</h5>
+      <h5 style="color:green;margin-bottom:2%" id="success_add_student">Congratulation: The new fighter has been added
+        to repository!</h5>
+
+      Enter a fighter Id ( or scan the QR/token ): <input id="createId" class="form-control input-field" type="text"
+        placeholder="Ex: A5V7A01" ng-model="student.studentId">
+      Enter a fighter name: <input id="studentName" class="form-control input-field" name="assetSelect2" type="text"
+        placeholder="Ex: Smith" ng-model="student.studentName">
+      Enter a group name: <input id="groupName" class="form-control input-field" name="assetSelect3" type="text"
+        placeholder="Ex: AB01" ng-model="student.groupName">
+      Enter a description: <input id="groupDesc" class="form-control input-field" type="text" placeholder="Ex: Description"
+        ng-model="student.description">
+      <input id="addStudent" type="submit" value="Add Fighter" class="btn btn-primary" ng-click="addStudent()">
+    </div>
+    
+    <!--  Create exam  worksheet for one group/course/teacher case -->
+    <div class="form-group">
+       <label>Generate empty group's item list and put into Ledger</label>
+        <br>
+        <h5 style="color:green;margin-bottom:2%" id="success_generated">Success! Tx ID: {{generated_test_group}}</h5>
+        <h5 style="color:red;margin-bottom:2%" id="error_generated">Error: Please enter a valid data</h5>
+        <!--Enter a new key(initial number for group): <input class="form-control input-field" placeholder="Ex: 021"
+          ng-model="generator.key"> -->
+        Enter a group name (from available list above): <input class="form-control input-field" placeholder="Ex: AB17"
+          ng-model="generator.groupName">
+        Enter item name: <input class="form-control input-field" name="assetSelect" placeholder="Ex: Belt" ng-model="generator.courseName">
+        Enter deliveryman name: <input class="form-control input-field" name="assetSelect" placeholder="Ex: Smith" ng-model="generator.teacherName">
+        <!-- TBD: The test deadline: <input class="form-control input-field" name="assetSelect" placeholder="Ex: 2014090811" ng-model="generator.deadlineTS"> -->
+        <input id="createTestForGroup" type="submit" value="Generate" class="btn btn-primary" ng-click="createTestForGroup()">
+     </div>
+
+     <p><a href="index.html">Back to Main Page</a></p>
+     <p><a href="deliveryman.html">Deliveryman Page</a></p> 
+     <p><a href="fighter.html">Fighter Page</a></p>
+
+</body>
+<!-- requiring the angular page -->
+<script type="text/javascript" src="app.js"> </script>
+
+</html>

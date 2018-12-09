@@ -1,0 +1,135 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fighter's repo</title>
+    <link rel="icon" href="favicon.png" type="image/gif">
+
+    <!-- require jquery and bootstrap scripts -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+    <!-- adding style here -->
+    <style type="text/css">
+      header{
+        background-color: rgb(155, 194, 228);
+        font-size:20px;
+        padding:15px;
+      }
+          
+      #body{
+        margin-left:3%;
+        margin-right:3%;
+      }
+      .form-control{
+        margin: 8px;
+      }
+      #right_header{
+        width:20%;
+        font-size:15px;
+        margin-right:0px;
+      }
+      #left_header{
+        margin-left:0;
+        width:40%;
+        display:inline-block;
+      }
+      #id {
+        width:49%;
+        display: inline-block;
+      }
+
+      table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+      }
+      td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+      }
+      tr:nth-child(even) {
+          background-color: #dddddd;
+      }
+
+      .input-field {
+         width: 200px;
+         padding: 6px 1px;
+         margin-left: 0px;
+      }
+    </style>
+  </head>
+  <body ng-app="application" ng-controller="appController">
+    <header class="my-header">
+      <div id="left_header">Supply monitoring system. Fighter Suite</div>
+      <i id="right_header">The personal item record for selected fighter.</i>
+    </header>
+
+    <div id="body">
+
+      <div class="form-group">
+        <label>Query Fighter's Record</label><br>
+        <h5 style="color:red;margin-bottom:2%" id="error_student_record">Error: Record(s) for selected student not found</h5>
+               Enter a fighter ID: <input id="studentName" class="form-control input-field" type="text" placeholder="Ex: 365A858149C6E2D1" ng-model="id">
+
+        <input id="getStudentRecordId" type="submit" value="Query" class="btn btn-primary" ng-click="getStudentRecord()">
+        </div>
+
+        <table id="student_record" class="table" align="center">
+
+          <tr>
+            <th>Record type</th>
+            <th>Group</th>
+            <th>Fighter ID</th>
+            <th>Fighter name</th>
+            <th>Registered</th> 
+          </tr>
+  
+          <tr>
+            <td>{{student_record.recordType}}</td>
+            <td>{{student_record.groupName}}</td>
+            <td>{{student_record.studentId}}</td>
+            <td>{{student_record.studentName}}</td>
+            <td>{{student_record.registerTS}}</td> 
+          </tr>
+        </table>
+
+      <table id="student_record2" class="table" align="center">
+
+        <tr >
+          <th>TestID</th>
+          <th>Figther</th> 
+          <th>Item</th>
+          <th>Deliveryman</th>
+          <th>Assigned TS</th>
+          <th>Size</th>
+          <th>Delivered</th>
+          <th>Description</th> 
+        </tr>
+
+        <tr ng-repeat="record in student_record.recordList">
+          <td>{{record.testId}}</td>
+          <td>{{student_record.studentName}}</td> 
+          <td>{{record.course}}</td>
+          <td>{{record.teacher}}</td>
+          <td>{{record.assignedTS}}</td>
+          <td>{{record.rate}}</td>
+          <td>{{record.executeTS}}</td>
+          <td>{{record.executeDesc}}</td> 
+        </tr>
+      </table>
+
+      <p><a href="index.html">Back to Main Page</a></p>
+      <p><a href="intendant.html">Intendant Page</a></p>
+      <p><a href="deliveryman.html">Deliveryman Page</a></p>
+
+    </div>
+  </body>
+    <!-- requiring the angular page -->
+    <script type="text/javascript" src="app.js"> </script>
+</html>
