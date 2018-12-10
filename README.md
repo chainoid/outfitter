@@ -1,2 +1,2 @@
 # outfitter
-Outfitter. Supply monitiring system. 
+Outfitter. Supply monitoring system. 
