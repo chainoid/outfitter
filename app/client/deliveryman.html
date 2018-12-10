@@ -78,10 +78,10 @@
         <h5 style="color:red;margin-bottom:2%" id="error_prepare_exam">Error: Please enter a valid group/course data</h5>
          Enter a group name:  <input id="createName" class="form-control input-field" type="text" placeholder="Ex: AA01" ng-model="exam.group">
          Enter a item name: <input class="form-control input-field" name="assetSelect" type="text" placeholder="Ex: Golang" ng-model="exam.course">
-        <input id="prepareForExam" type="submit" value="Query" class="btn btn-primary" ng-click="prepareForExam()">
+        <input id="prepareForDeliveryId" type="submit" value="Query" class="btn btn-primary" ng-click="prepareForDelivery()">
       </div>
 
-      <table id="exam_list" class="table" align="center">
+      <table id="item_list" class="table" align="center">
 
         <tr>
           <th>ID</th>
@@ -93,10 +93,10 @@
           <th>Assigned Time</th>
           <th>Delivery Time</th>
           <th>Size</th>
-          <th></th>
+          <th>Action</th>
         </tr>
 
-        <tr ng-repeat="exam in exam_list">
+        <tr ng-repeat="exam in item_list">
           <td>{{exam.Key}}</td>
           <td>{{exam.testId}}</td>
           <td>{{exam.group}}</td>
@@ -105,7 +105,8 @@
           <td>{{exam.teacher}}</td>
           <td>{{exam.assignedTS}}</td>
           <td>{{exam.executeTS}}</td>
-          <td><a  href="" ng-model="history_parsel" ng-click="beforeTakeTheTest(exam)">Delivery!</a></td>
+          <td>{{exam.rate}}</td>
+          <td><a  href="" ng-model="history_parsel" ng-click="beforeDeliveryItem(exam)">Delivery Item</a></td>
           
         </tr>
       </table>
@@ -118,7 +119,7 @@
          Enter a fighter unique Id: <input id="createName" class="form-control input-field" type="text" placeholder="Ex: AA01" ng-model="examcase.studentId">
          Enter a item name: <input class="form-control input-field" type="text" placeholder="Ex: Red Hat" ng-model="examcase.course">
          Enter an item size:   <input class="form-control input-field" type="text" placeholder="Ex: 5" ng-model="examcase.rate">
-        <input id="takeTheTestId" type="submit" value="Accept delivery" class="btn btn-primary" ng-click="takeTheTest()">
+        <input id="deliveryItemId" type="submit" value="Accept delivery" class="btn btn-primary" ng-click="deliveryItem()">
       </div>
 
      <p><a href="index.html">Back to Main Page</a></p>

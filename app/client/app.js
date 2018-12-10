@@ -61,9 +61,9 @@ app.controller('appController', function ($scope, appFactory) {
 		});
 	}
 
-    $scope.addStudent = function () {
+    $scope.addUser = function () {
 
-		appFactory.addStudent($scope.student, function (data) {
+		appFactory.addUser($scope.student, function (data) {
 
 			if (data == "Could not locate unpassed test") {
 				$("#error_add_student").show();
@@ -77,9 +77,9 @@ app.controller('appController', function ($scope, appFactory) {
 		});
 	}
 
-	$scope.queryAllStudents = function () {
+	$scope.queryAllUsers = function () {
 
-		appFactory.queryAllStudents(function (data) {
+		appFactory.queryAllUsers(function (data) {
 			var array = [];
 			for (var i = 0; i < data.length; i++) {
 				data[i].Record.Key = data[i].Key;
@@ -88,16 +88,16 @@ app.controller('appController', function ($scope, appFactory) {
 			array.sort(function (a, b) {
 				return a.groupName.localeCompare(b.groupName);
 			});
-			$scope.all_students = array;
+			$scope.all_users = array;
 		});
 	}
 
-	$scope.createTestForGroup = function () {
+	$scope.generateSetForGroup = function () {
 
-		appFactory.createTestForGroup($scope.generator, function (data) {
-			$scope.generated_test_group = data;
+		appFactory.generateSetForGroup($scope.generator, function (data) {
+			$scope.generated_set_for_group = data;
 
-			if ($scope.generated_test_group == "error_generated") {
+			if ($scope.generated_set_for_group == "error_generated") {
 				console.log()
 				$("#error_generated").show();
 			} else {
@@ -108,31 +108,15 @@ app.controller('appController', function ($scope, appFactory) {
 		});
 	}
 
-	$scope.queryTestById = function () {
-
-		var id = $scope.test_id;
-
-		appFactory.queryTestById(id, function (data) {
-			$scope.query_test_id = data;
-
-			if ($scope.query_test_id == "Could not locate test") {
-				console.log()
-				$("#error_query_id").show();
-			} else {
-				$("#error_query_id").hide();
-			}
-		});
-	}
-
-	$scope.getStudentRecord = function () {
+	$scope.getUserRecord = function () {
 		
 		var id = $scope.id;
 
-		appFactory.getStudentRecord(id, function(data){
+		appFactory.getUserRecord(id, function(data){
 
 			$scope.student_record = data;
 
-			if ($scope.student_record == "Student record not found"){
+			if ($scope.student_record == "User record not found"){
 				console.log()
 				$("#error_student_record").show();
 				$("#student_record").hide();
@@ -146,13 +130,13 @@ app.controller('appController', function ($scope, appFactory) {
 		});
 	}
 
-	$scope.prepareForExam = function () {
+	$scope.prepareForDelivery = function () {
 
 		var exam = $scope.exam;
 
-		appFactory.prepareForExam(exam, function (data) {
+		appFactory.prepareForDelivery(exam, function (data) {
 
-			if (data == "No group/course found") {
+			if (data == "No group/user found") {
 				console.log()
 				$("#error_prepare_exam").show();
 				$("#exam_list").hide();
@@ -160,23 +144,23 @@ app.controller('appController', function ($scope, appFactory) {
 			} else {
 				$("#error_prepare_exam").hide();
 				$("#exam_list").show();
+				$("#take_form").hide(); 
 			}
 
 			var array = [];
 			for (var i = 0; i < data.length; i++) {
-				//parseInt(data[i].Key);
 				data[i].Record.Key = data[i].Key;
 				array.push(data[i].Record);
 			}
 			array.sort(function (a, b) {
 				return parseFloat(a.Key) - parseFloat(b.Key);
 			});
-			$scope.exam_list = array;
+			$scope.item_list = array;
 		});
 	}
 
 
-	$scope.beforeTakeTheTest = function (exam) {
+	$scope.beforeDeliveryItem = function (exam) {
 		        
           if (exam.rate != "") {
 			$("#takeTheTestId").hide();	 
@@ -184,16 +168,16 @@ app.controller('appController', function ($scope, appFactory) {
 		  } else {
 			$("#takeTheTestId").show();	
 			$("#take_form").show();
-			$("#success_exam").show();
+			$("#success_exam").hide();
 		  }
 		  $scope.examcase = exam;
 	}
 
-	$scope.takeTheTest = function () {
+	$scope.deliveryItem = function () {
 
 		var examcase = $scope.examcase;
 
-		appFactory.takeTheTest(examcase, function (data) {
+		appFactory.deliveryItem(examcase, function (data) {
 
 			if (data == "Could not locate unpassed test") {
 				$("#error_exam_source").show();
@@ -208,6 +192,7 @@ app.controller('appController', function ($scope, appFactory) {
 	}
 
 });
+
 
 // Angular Factory
 app.factory('appFactory', function ($http) {
@@ -232,57 +217,51 @@ app.factory('appFactory', function ($http) {
 	}
 
 
-	factory.addStudent = function (data, callback) {
+	factory.addUser = function (data, callback) {
 
 		var student = data.studentId + "-" + data.studentName + "-" + data.groupName + "-" + data.description;
 
-		$http.get('/add_student/' + student).success(function (output) {
+		$http.get('/add_user/' + student).success(function (output) {
 			callback(output)
 		});
 	}
 
-	factory.queryAllStudents = function (callback) {
+	factory.queryAllUsers = function (callback) {
 
-		$http.get('/get_all_students/').success(function (output) {
+		$http.get('/query_all_users/').success(function (output) {
 			callback(output)
 		});
 	}
 	
-	factory.createTestForGroup = function (generator, callback) {
+	factory.generateSetForGroup = function (generator, callback) {
 
 		var generator = generator.groupName + "-" + generator.courseName + "-" + generator.teacherName;
 
-		$http.get('/create_test_group/' + generator).success(function (output) {
+		$http.get('/generate_set_for_group/' + generator).success(function (output) {
 			callback(output)
 		});
 	}
 
-	factory.queryTestById = function (id, callback) {
-		$http.get('/get_test_id/' + id).success(function (output) {
+	factory.getUserRecord = function (id, callback) {
+		$http.get('/get_user_record/' + id).success(function (output) {
 			callback(output)
 		});
 	}
 
-	factory.getStudentRecord = function (id, callback) {
-		$http.get('/get_student_record/' + id).success(function (output) {
-			callback(output)
-		});
-	}
-
-	factory.prepareForExam = function (exam, callback) {
+	factory.prepareForDelivery = function (exam, callback) {
 
 		var params = exam.group + "-" + exam.course;
 
-		$http.get('/prepare_exam/' + params).success(function (output) {
+		$http.get('/prepare_for_delivery/' + params).success(function (output) {
 			callback(output)
 		});
 	}
 
-	factory.takeTheTest = function (input, callback) {
+	factory.deliveryItem = function (input, callback) {
 
 		var params = input.studentId + "-" + input.course + "-" + input.rate;
 
-		$http.get('/take_test/' + params).success(function (output) {
+		$http.get('/delivery_item/' + params).success(function (output) {
 			callback(output)
 		});
 	}

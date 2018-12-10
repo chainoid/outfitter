@@ -247,9 +247,9 @@ return{
 	},
 
 	//
-	// Add Student suite
+	// Add User suite
     //
-	add_student: function(req, res){
+	add_user: function(req, res){
 
 		var fabric_client = new Fabric_Client();
 
@@ -304,7 +304,7 @@ return{
 				// addStudent - requires 4 argument, ex: args: ['4004', 'AB12', "AnalogDev", "The description"],
 				const request = {
 						chaincodeId: 'cum-record',
-						fcn: 'addStudent',
+						fcn: 'addUser',
 						args: [studentId, studentName, groupName, description],
 						chainId: 'mychannel',
 						txId: tx_id
@@ -408,8 +408,8 @@ return{
 	},
 
 
-	get_all_students: function(req, res){
-		console.log("getting all students records from database: ");
+	query_all_users: function(req, res){
+		console.log("getting all users from database: ");
 
 		var fabric_client = new Fabric_Client();
 
@@ -449,7 +449,7 @@ return{
 		    // queryAllGroups - requires no arguments , ex: args: [''],event_hub
 		    const request = {
 		        chaincodeId: 'cum-record',
-		        fcn: 'queryAllStudents',
+		        fcn: 'queryAllUsers',
 				chainId: 'mychannel',
 				args: [''],
 				txId: tx_id
@@ -475,8 +475,8 @@ return{
 		});
 	},
 
-	create_test_group: function(req, res){
-		console.log("Controller: submit recording of set for new group test: ");
+	generate_set_for_group: function(req, res){
+		console.log("Controller: submit recording new set for groupt: ");
 
 		var array = req.params.generator.split("-");
 		console.log(array);
@@ -531,7 +531,7 @@ return{
 		    const request = {
 		        //targets : --- letting this default to the peers assigned to the channel
 		        chaincodeId: 'cum-record',
-		        fcn: 'createTestForGroup',
+		        fcn: 'generateSetForGroup',
 		        args: [groupName,  courseName, teacherName ],
 		        chainId: 'mychannel',
 		        txId: tx_id
@@ -702,7 +702,7 @@ return{
 		});
 	},
 
-	get_student_record: function(req, res){
+	get_user_record: function(req, res){
 
 		var fabric_client = new Fabric_Client();
 		var record_id = req.params.id
@@ -743,7 +743,7 @@ return{
 				// getStudentRecord - requires 1 argument, ex: args: ['AB1200'],
 				const request = {
 						chaincodeId: 'cum-record',
-						fcn: 'getStudentRecord',
+						fcn: 'getUserRecord',
 						args: [record_id],
 						chainId: 'mychannel',
 						txId: tx_id,
@@ -757,7 +757,7 @@ return{
 				if (query_responses && query_responses.length == 1) {
 						if (query_responses[0] instanceof Error) {
 								console.error("error from query = ", query_responses[0]);
-								res.send("Student record not found")
+								res.send("User record not found")
 
 						} else {
 
@@ -772,7 +772,7 @@ return{
 						}
 				} else {
 						console.log("No payloads were returned from query");
-						res.send("Student record not found")
+						res.send("User record not found")
 				}
 		}).catch((err) => {
 				console.error('Failed to query successfully :: ' + err);
@@ -780,7 +780,7 @@ return{
 		});
 	},
 
-	prepare_exam: function(req, res){
+	prepare_for_delivery: function(req, res){
 
 		var fabric_client = new Fabric_Client();
 
@@ -830,7 +830,7 @@ return{
 				// getParsel - requires 1 argument, ex: args: ['4'],
 				const request = {
 						chaincodeId: 'cum-record',
-						fcn: 'prepareForExam',
+						fcn: 'prepareForDelivery',
 						args: [group, course],
 						chainId: 'mychannel',
 						txId: tx_id
@@ -861,7 +861,7 @@ return{
 		});
 	},
 
-	take_test: function(req, res){
+	delivery_item: function(req, res){
 		
 		console.log("Put a timestamp of exam, rate the student, Params = " + req.params.examcase );
 
@@ -916,7 +916,7 @@ return{
 		    var request = {
 		        //targets : --- letting this default to the peers assigned to the channel
 		        chaincodeId: 'cum-record',
-		        fcn: 'takeTheTest',
+		        fcn: 'deliveryItem',
 		        args: [key, course, rate],
 		        chainId: 'mychannel',
 		        txId: tx_id

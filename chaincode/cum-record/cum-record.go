@@ -100,20 +100,18 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.queryAllGroups(APIstub)
 	} else if function == "addGroup" {
 		return s.addGroup(APIstub, args)
-	} else if function == "queryAllStudents" {
-		return s.queryAllStudents(APIstub)
-	} else if function == "queryTestById" {
-		return s.queryTestById(APIstub, args)
-	} else if function == "createTestForGroup" {
-		return s.createTestForGroup(APIstub, args)
-	} else if function == "prepareForExam" {
-		return s.prepareForExam(APIstub, args)
-	} else if function == "takeTheTest" {
-		return s.takeTheTest(APIstub, args)
-	} else if function == "addStudent" {
-		return s.addStudent(APIstub, args)
-	} else if function == "getStudentRecord" {
-		return s.getStudentRecord(APIstub, args)
+	} else if function == "queryAllUsers" {
+		return s.queryAllUsers(APIstub)
+	} else if function == "generateSetForGroup" {
+		return s.generateSetForGroup(APIstub, args)
+	} else if function == "prepareForDelivery" {
+		return s.prepareForDelivery(APIstub, args)
+	} else if function == "deliveryItem" {
+		return s.deliveryItem(APIstub, args)
+	} else if function == "addUser" {
+		return s.addUser(APIstub, args)
+	} else if function == "getUserRecord" {
+		return s.getUserRecord(APIstub, args)
 	}
 
 	return shim.Error("Invalid Smart Contract function name.")
@@ -227,17 +225,17 @@ func (s *SmartContract) addGroup(APIstub shim.ChaincodeStubInterface, args []str
 	return shim.Success(nil)
 }
 
-/* The addStudent method *
-   Generate initial student record
+/* The addUser method *
+   Generate initial user record
    This method takes in four arguments (attributes to be saved in the ledger).
 */
-func (s *SmartContract) addStudent(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) addUser(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 4 {
 		return shim.Error("Incorrect number of arguments. Expecting 4")
 	}
 
-	// Fill the student date
+	// Fill the user date
 	var studentRecord = StudentRecord{RecordType: "S", StudentId: args[0], StudentName: args[1], GroupName: args[2], Description: args[3], RegisterTS: time.Now().Format(time.RFC3339)}
 
 	studentRecordAsBytes, _ := json.Marshal(studentRecord)
@@ -245,20 +243,20 @@ func (s *SmartContract) addStudent(APIstub shim.ChaincodeStubInterface, args []s
 	err := APIstub.PutState(fmt.Sprintf("%016d", rand.Int63n(1e16)), studentRecordAsBytes)
 
 	if err != nil {
-		return shim.Error(fmt.Sprintf("Failed to add student to system with id: %s", args[0]))
+		return shim.Error(fmt.Sprintf("Failed to add user to system with id: %s", args[0]))
 	}
 
-	fmt.Println("Added student with id: ", args[0])
+	fmt.Println("Added user with id: ", args[0])
 
 	return shim.Success(nil)
 }
 
 /*
- * The queryAllStudents method *
-allows for assessing all student records added to the ledger
-This method does not take any arguments. Returns JSON string containing results.
+ * The queryAllUsers method *
+   allows for assessing all user records added to the ledger
+   This method does not take any arguments. Returns JSON string containing results.
 */
-func (s *SmartContract) queryAllStudents(APIstub shim.ChaincodeStubInterface) sc.Response {
+func (s *SmartContract) queryAllUsers(APIstub shim.ChaincodeStubInterface) sc.Response {
 
 	startKey := "0"
 	endKey := "9999"
@@ -306,7 +304,7 @@ func (s *SmartContract) queryAllStudents(APIstub shim.ChaincodeStubInterface) sc
 	}
 	buffer.WriteString("]")
 
-	fmt.Printf("- queryAllStudents:\n%s\n", buffer.String())
+	fmt.Printf("- queryAllUsers:\n%s\n", buffer.String())
 
 	return shim.Success(buffer.Bytes())
 }
@@ -317,6 +315,7 @@ func (s *SmartContract) queryAllStudents(APIstub shim.ChaincodeStubInterface) sc
  It takes one argument -- the key for the parsel in question
 */
 
+/*
 func (s *SmartContract) queryTestById(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 1 {
@@ -329,12 +328,13 @@ func (s *SmartContract) queryTestById(APIstub shim.ChaincodeStubInterface, args 
 	}
 	return shim.Success(stestAsBytes)
 }
+|*/
 
-/* The createTestForGroup method *
-   Generate list of records for one group/course/teacher
+/* The generateSetForGroup method *
+   Generate list of set for one group
    This method takes in four arguments (attributes to be saved in the ledger).
 */
-func (s *SmartContract) createTestForGroup(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) generateSetForGroup(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 3 {
 		return shim.Error("Incorrect number of arguments. Expecting 3")
@@ -380,13 +380,13 @@ func (s *SmartContract) createTestForGroup(APIstub shim.ChaincodeStubInterface, 
 }
 
 /*
- * The getStudentRecord method *
+ * The getUserRecord method *
    allows for assessing all the records from selected student
 
     Returns JSON string containing results.
 */
 
-func (s *SmartContract) getStudentRecord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) getUserRecord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
@@ -394,20 +394,20 @@ func (s *SmartContract) getStudentRecord(APIstub shim.ChaincodeStubInterface, ar
 
 	studentRecordAsBytes, err := APIstub.GetState(args[0])
 	if err != nil {
-		return shim.Error("Could not locate student data")
+		return shim.Error("Could not locate user data")
 	}
 
 	return shim.Success(studentRecordAsBytes)
 }
 
 /*
- * The prepareForExam method *
-   allows for assessing all the records from selected group/course
+ * The prepareForDelivery method *
+   allows for assessing all the records from selected group/item
 
-	 Returns JSON string containing results.
+	Returns JSON string containing results.
 */
 
-func (s *SmartContract) prepareForExam(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) prepareForDelivery(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	startKey := "0"
 	endKey := "9999"
@@ -416,7 +416,7 @@ func (s *SmartContract) prepareForExam(APIstub shim.ChaincodeStubInterface, args
 		return shim.Error("Incorrect number of arguments. Expecting 2")
 	}
 
-	fmt.Printf("- prepareForExam param args[0] :%s  args[1] :%s\n", args[0], args[1])
+	fmt.Printf("- prepareForDelivery param args[0] :%s  args[1] :%s\n", args[0], args[1])
 
 	resultsIterator, err := APIstub.GetStateByRange(startKey, endKey)
 	if err != nil {
@@ -522,16 +522,16 @@ func (s *SmartContract) prepareForExam(APIstub shim.ChaincodeStubInterface, args
 }
 
 /*
- * The takeTheTest method *
- * The data in the stest state can be updated .
+ * The deliveryItem method *
+ * The data in the state can be updated .
  */
-func (s *SmartContract) takeTheTest(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) deliveryItem(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 3 {
 		return shim.Error("Incorrect number of arguments. Expecting 3")
 	}
 
-	fmt.Printf("- takeTheTest param args[0] :%s  args[1] :%s args[3] :%s\n", args[0], args[1], args[2])
+	fmt.Printf("- deliveryItem param args[0] :%s  args[1] :%s args[3] :%s\n", args[0], args[1], args[2])
 
 	studentRecordAsBytes, _ := APIstub.GetState(args[0])
 

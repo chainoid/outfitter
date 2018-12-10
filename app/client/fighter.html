@@ -67,17 +67,17 @@
   <body ng-app="application" ng-controller="appController">
     <header class="my-header">
       <div id="left_header">Supply monitoring system. Fighter Suite</div>
-      <i id="right_header">The personal item record for selected fighter.</i>
+      <i id="right_header">The personal items record for selected fighter.</i>
     </header>
 
     <div id="body">
 
       <div class="form-group">
         <label>Query Fighter's Record</label><br>
-        <h5 style="color:red;margin-bottom:2%" id="error_student_record">Error: Record(s) for selected student not found</h5>
+        <h5 style="color:red;margin-bottom:2%" id="error_student_record">Error: Record(s) for selected user not found</h5>
                Enter a fighter ID: <input id="studentName" class="form-control input-field" type="text" placeholder="Ex: 365A858149C6E2D1" ng-model="id">
 
-        <input id="getStudentRecordId" type="submit" value="Query" class="btn btn-primary" ng-click="getStudentRecord()">
+        <input id="getUserRecordId" type="submit" value="Query" class="btn btn-primary" ng-click="getUserRecord()">
         </div>
 
         <table id="student_record" class="table" align="center">

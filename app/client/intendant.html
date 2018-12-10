@@ -113,13 +113,13 @@
       <input id="addGroup" type="submit" value="Add Group" class="btn btn-primary" ng-click="addGroup()">
     </div>
 
-    <!--  Query all students in college-->
+    <!--  Query all user in organizatione-->
     <div class="form-group">
       <label>All Fighters in Squadrone</label>
-      <p><input id="queryAllStudents" type="submit" value="Query fighters" class="btn btn-primary" ng-click="queryAllStudents()"></p>
+      <p><input id="queryAllUsers" type="submit" value="Query fighters" class="btn btn-primary" ng-click="queryAllUsers()"></p>
     </div>
 
-    <table id="all_students" class="table" align="center">
+    <table id="all_users" class="table" align="center">
       <tr>
         <th>ID</th>
         <th>Fighter Id</th>
@@ -129,7 +129,7 @@
         <th>Register TS</th>
         <th>Test Record</th>
       </tr>
-      <tr ng-repeat="student in all_students">
+      <tr ng-repeat="student in all_users">
         <td>{{student.Key}}</td>
         <td>{{student.studentId}}</td>
         <td>{{student.studentName}}</td>
@@ -140,7 +140,7 @@
       </tr>
     </table>
 
-    <!--  Add the student into repository-->
+    <!--  Add the user into repository-->
     <div class="form-group">
       <label>Add fighter into repository</label><br>
       <h5 style="color:red;margin-bottom:2%" id="error_add_student">Error: Please enter a valid fighter data</h5>
@@ -155,14 +155,14 @@
         placeholder="Ex: AB01" ng-model="student.groupName">
       Enter a description: <input id="groupDesc" class="form-control input-field" type="text" placeholder="Ex: Description"
         ng-model="student.description">
-      <input id="addStudent" type="submit" value="Add Fighter" class="btn btn-primary" ng-click="addStudent()">
+      <input id="addStudent" type="submit" value="Add Fighter" class="btn btn-primary" ng-click="addUser()">
     </div>
     
-    <!--  Create exam  worksheet for one group/course/teacher case -->
+    <!--  Create one item worksheet for whole group -->
     <div class="form-group">
        <label>Generate empty group's item list and put into Ledger</label>
         <br>
-        <h5 style="color:green;margin-bottom:2%" id="success_generated">Success! Tx ID: {{generated_test_group}}</h5>
+        <h5 style="color:green;margin-bottom:2%" id="success_generated">Success! Tx ID: {{generated_set_for_group}}</h5>
         <h5 style="color:red;margin-bottom:2%" id="error_generated">Error: Please enter a valid data</h5>
         <!--Enter a new key(initial number for group): <input class="form-control input-field" placeholder="Ex: 021"
           ng-model="generator.key"> -->
@@ -171,7 +171,7 @@
         Enter item name: <input class="form-control input-field" name="assetSelect" placeholder="Ex: Belt" ng-model="generator.courseName">
         Enter deliveryman name: <input class="form-control input-field" name="assetSelect" placeholder="Ex: Smith" ng-model="generator.teacherName">
         <!-- TBD: The test deadline: <input class="form-control input-field" name="assetSelect" placeholder="Ex: 2014090811" ng-model="generator.deadlineTS"> -->
-        <input id="createTestForGroup" type="submit" value="Generate" class="btn btn-primary" ng-click="createTestForGroup()">
+        <input id="generateSetForGroup" type="submit" value="Generate" class="btn btn-primary" ng-click="generateSetForGroup()">
      </div>
 
      <p><a href="index.html">Back to Main Page</a></p>
