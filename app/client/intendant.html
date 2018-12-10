@@ -85,7 +85,7 @@
     <!--  Get all groups from repository-->
     <div class="form-group">
       <label>Query All Groups in Squadrone</label>
-      <p><input id="queryAllGroups" type="submit" value="Query Group" class="btn btn-primary" ng-click="queryAllGroups()"></p>
+      <p><input id="queryAllGroups" type="submit" value="Query Group" class="btn btn-success" ng-click="queryAllGroups()"></p>
     </div>
 
     <table id="all_groups" class="table" align="center">
@@ -110,13 +110,13 @@
         ng-model="newGroup.groupName">
       Enter a description: <input id="groupDesc" class="form-control input-field" type="text" placeholder="Ex: Description"
         ng-model="newGroup.description">
-      <input id="addGroup" type="submit" value="Add Group" class="btn btn-primary" ng-click="addGroup()">
+      <input id="addGroup" type="submit" value="Add Group" class="btn btn-warning" ng-click="addGroup()">
     </div>
 
     <!--  Query all user in organizatione-->
     <div class="form-group">
       <label>All Fighters in Squadrone</label>
-      <p><input id="queryAllUsers" type="submit" value="Query fighters" class="btn btn-primary" ng-click="queryAllUsers()"></p>
+      <p><input id="queryAllUsers" type="submit" value="Query fighters" class="btn btn-success" ng-click="queryAllUsers()"></p>
     </div>
 
     <table id="all_users" class="table" align="center">
@@ -129,13 +129,13 @@
         <th>Register TS</th>
         <th>Test Record</th>
       </tr>
-      <tr ng-repeat="student in all_users">
-        <td>{{student.Key}}</td>
-        <td>{{student.studentId}}</td>
-        <td>{{student.studentName}}</td>
-        <td>{{student.groupName}}</td>
-        <td>{{student.description}}</td>
-        <td>{{student.registerTS}}</td>
+      <tr ng-repeat="user in all_users">
+        <td>{{user.Key}}</td>
+        <td>{{user.studentId}}</td>
+        <td>{{user.studentName}}</td>
+        <td>{{user.groupName}}</td>
+        <td>{{user.description}}</td>
+        <td>{{user.registerTS}}</td>
         <td> Test Record </td>
       </tr>
     </table>
@@ -143,19 +143,19 @@
     <!--  Add the user into repository-->
     <div class="form-group">
       <label>Add fighter into repository</label><br>
-      <h5 style="color:red;margin-bottom:2%" id="error_add_student">Error: Please enter a valid fighter data</h5>
-      <h5 style="color:green;margin-bottom:2%" id="success_add_student">Congratulation: The new fighter has been added
+      <h5 style="color:red;margin-bottom:2%" id="error_add_user">Error: Please enter a valid fighter data</h5>
+      <h5 style="color:green;margin-bottom:2%" id="success_add_user">Congratulation: The new fighter has been added
         to repository!</h5>
 
       Enter a fighter Id ( or scan the QR/token ): <input id="createId" class="form-control input-field" type="text"
-        placeholder="Ex: A5V7A01" ng-model="student.studentId">
+        placeholder="Ex: A5V7A01" ng-model="user.studentId">
       Enter a fighter name: <input id="studentName" class="form-control input-field" name="assetSelect2" type="text"
-        placeholder="Ex: Smith" ng-model="student.studentName">
+        placeholder="Ex: Smith" ng-model="user.studentName">
       Enter a group name: <input id="groupName" class="form-control input-field" name="assetSelect3" type="text"
-        placeholder="Ex: AB01" ng-model="student.groupName">
+        placeholder="Ex: AB01" ng-model="user.groupName">
       Enter a description: <input id="groupDesc" class="form-control input-field" type="text" placeholder="Ex: Description"
-        ng-model="student.description">
-      <input id="addStudent" type="submit" value="Add Fighter" class="btn btn-primary" ng-click="addUser()">
+        ng-model="user.description">
+      <input id="addUserId" type="submit" value="Add Fighter" class="btn btn-warning" ng-click="addUser()">
     </div>
     
     <!--  Create one item worksheet for whole group -->
@@ -170,15 +170,26 @@
           ng-model="generator.groupName">
         Enter item name: <input class="form-control input-field" name="assetSelect" placeholder="Ex: Belt" ng-model="generator.courseName">
         Enter deliveryman name: <input class="form-control input-field" name="assetSelect" placeholder="Ex: Smith" ng-model="generator.teacherName">
-        <!-- TBD: The test deadline: <input class="form-control input-field" name="assetSelect" placeholder="Ex: 2014090811" ng-model="generator.deadlineTS"> -->
-        <input id="generateSetForGroup" type="submit" value="Generate" class="btn btn-primary" ng-click="generateSetForGroup()">
+        <!-- TBD: The delivery deadline: <input class="form-control input-field" name="assetSelect" placeholder="Ex: 2014090811" ng-model="generator.deadlineTS"> -->
+        <input id="generateSetForGroupId" type="submit" value="Generate" class="btn btn-warning" ng-click="generateSetForGroup()">
      </div>
 
-     <p><a href="index.html">Back to Main Page</a></p>
-     <p><a href="deliveryman.html">Deliveryman Page</a></p> 
-     <p><a href="fighter.html">Fighter Page</a></p>
 
+     <div class="dropdown">
+      <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Switch to Page
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="index.html"> Main</a> <br/>
+        <a class="dropdown-item" href="deliveryman.html"> Deliveryman</a> <br/>
+        <a class="dropdown-item" href="fighter.html"> Fighter</a> <br/>
+      </div>
+    </div>
+    
+    <br/>
+    
 </body>
+
 <!-- requiring the angular page -->
 <script type="text/javascript" src="app.js"> </script>
 

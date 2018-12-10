@@ -75,10 +75,10 @@
 
       <div class="form-group">
         <label>Prepare the empty item list for selected group and item</label><br>
-        <h5 style="color:red;margin-bottom:2%" id="error_prepare_exam">Error: Please enter a valid group/course data</h5>
-         Enter a group name:  <input id="createName" class="form-control input-field" type="text" placeholder="Ex: AA01" ng-model="exam.group">
-         Enter a item name: <input class="form-control input-field" name="assetSelect" type="text" placeholder="Ex: Golang" ng-model="exam.course">
-        <input id="prepareForDeliveryId" type="submit" value="Query" class="btn btn-primary" ng-click="prepareForDelivery()">
+        <h5 style="color:red;margin-bottom:2%" id="error_prepare_delivery">Error: Please enter a valid group/item data</h5>
+         Enter a group name:  <input id="createName" class="form-control input-field" type="text" placeholder="Ex: AB17" ng-model="order.group">
+         Enter a item name: <input class="form-control input-field" name="assetSelect" type="text" placeholder="Ex: Boots" ng-model="order.course">
+        <input id="prepareForDeliveryId" type="submit" value="Query" class="btn btn-warning" ng-click="prepareForDelivery()">
       </div>
 
       <table id="item_list" class="table" align="center">
@@ -96,17 +96,17 @@
           <th>Action</th>
         </tr>
 
-        <tr ng-repeat="exam in item_list">
-          <td>{{exam.Key}}</td>
-          <td>{{exam.testId}}</td>
-          <td>{{exam.group}}</td>
-          <td>{{exam.studentName}}</td>
-          <td>{{exam.course}}</td>
-          <td>{{exam.teacher}}</td>
-          <td>{{exam.assignedTS}}</td>
-          <td>{{exam.executeTS}}</td>
-          <td>{{exam.rate}}</td>
-          <td><a  href="" ng-model="history_parsel" ng-click="beforeDeliveryItem(exam)">Delivery Item</a></td>
+        <tr ng-repeat="item in item_list">
+          <td>{{item.Key}}</td>
+          <td>{{item.testId}}</td>
+          <td>{{item.group}}</td>
+          <td>{{item.studentName}}</td>
+          <td>{{item.course}}</td>
+          <td>{{item.teacher}}</td>
+          <td>{{item.assignedTS}}</td>
+          <td>{{item.executeTS}}</td>
+          <td>{{item.rate}}</td>
+          <td><a  href="" ng-model="history_item" ng-click="beforeDeliveryItem(item)">Delivery Item</a></td>
           
         </tr>
       </table>
@@ -119,13 +119,22 @@
          Enter a fighter unique Id: <input id="createName" class="form-control input-field" type="text" placeholder="Ex: AA01" ng-model="examcase.studentId">
          Enter a item name: <input class="form-control input-field" type="text" placeholder="Ex: Red Hat" ng-model="examcase.course">
          Enter an item size:   <input class="form-control input-field" type="text" placeholder="Ex: 5" ng-model="examcase.rate">
-        <input id="deliveryItemId" type="submit" value="Accept delivery" class="btn btn-primary" ng-click="deliveryItem()">
+        <input id="deliveryItemId" type="submit" value="Accept delivery" class="btn btn-warning" ng-click="deliveryItem()">
       </div>
 
-     <p><a href="index.html">Back to Main Page</a></p>
-     <p><a href="intendant.html">Intendant Page</a></p>
-     <p><a href="fighter.html">Fighter Page</a></p>
-
+      <div class="dropdown">
+        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Switch to Page
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="index.html"> Main</a> <br/>
+          <a class="dropdown-item" href="intendant.html"> Intendant</a> <br/>
+          <a class="dropdown-item" href="fighter.html"> Fighter</a> <br/>
+        </div>
+      </div>
+      
+      <br/>
+      
     </div>
   </body>
     <!-- requiring the angular page -->

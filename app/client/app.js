@@ -7,26 +7,40 @@ var app = angular.module('application', []);
 // Angular Controller
 app.controller('appController', function ($scope, appFactory) {
 
+	// Intendant page
+	$("#all_groups").hide();
+	$("#all_users").hide();
+
+	$("#error_add_group").hide();
+	$("#success_add_group").hide();
+
+	$("#error_add_user").hide();
+	$("#success_add_user").hide();
+
 	$("#success_generated").hide();
 	$("#error_generated").hide();
+
+	//
+
 	$("#error_query").hide();
 	$("#error_sender").hide();
 	$("#error_query_id").hide();
 	$("#error_query_student").hide();
-	$("#error_prepare_exam").hide();
+	$("#error_prepare_delivery").hide();
 	$("#error_pass_exam").hide();
 	$("#error_student_record").hide();
-	$("#exam_list").hide();
+	$("#item_list").hide();
 	
 	$("#error_exam_source").hide();
 	$("#error_old_exam").hide();
 	$("#success_exam").hide();
 
-	$("#error_add_group").hide();
-	$("#success_add_group").hide();
+	// Fighter page	
+	$("#error_user_record").hide();
+	$("#user_record").hide();
+	$("#user_record2").hide();
 
-	$("#error_add_student").hide();
-	$("#success_add_student").hide();
+	
 
 	$("#take_form").hide();
 
@@ -42,6 +56,7 @@ app.controller('appController', function ($scope, appFactory) {
 			    return a.groupName.localeCompare(b.groupName);
 			});
 			$scope.all_groups = array;
+			$("#all_groups").show();
 		});
 	}
 
@@ -63,14 +78,14 @@ app.controller('appController', function ($scope, appFactory) {
 
     $scope.addUser = function () {
 
-		appFactory.addUser($scope.student, function (data) {
+		appFactory.addUser($scope.user, function (data) {
 
 			if (data == "Could not locate unpassed test") {
-				$("#error_add_student").show();
-				$("#success_add_student").hide();
+				$("#error_add_user").show();
+				$("#success_add_user").hide();
 			} else {
-				$("#error_add_student").hide();
-				$("#success_add_student").show();
+				$("#error_add_user").hide();
+				$("#success_add_user").show();
 			}
 
 			$scope.exam_result = data;
@@ -89,6 +104,7 @@ app.controller('appController', function ($scope, appFactory) {
 				return a.groupName.localeCompare(b.groupName);
 			});
 			$scope.all_users = array;
+			$("#all_users").show();
 		});
 	}
 
@@ -114,36 +130,36 @@ app.controller('appController', function ($scope, appFactory) {
 
 		appFactory.getUserRecord(id, function(data){
 
-			$scope.student_record = data;
+			$scope.user_record = data;
 
-			if ($scope.student_record == "User record not found"){
+			if ($scope.user_record == "User record not found"){
 				console.log()
-				$("#error_student_record").show();
-				$("#student_record").hide();
-				$("#student_record2").hide();
+				$("#error_user_record").show();
+				$("#user_record").hide();
+				$("#user_record2").hide();
 				
 			} else{
-				$("#error_student_record").hide();
-				$("#student_record").show();
-				$("#student_record2").show();
+				$("#error_user_record").hide();
+				$("#user_record").show();
+				$("#user_record2").show();
 			}
 		});
 	}
 
 	$scope.prepareForDelivery = function () {
 
-		var exam = $scope.exam;
+		var order = $scope.order;
 
-		appFactory.prepareForDelivery(exam, function (data) {
+		appFactory.prepareForDelivery(order, function (data) {
 
-			if (data == "No group/user found") {
-				console.log()
-				$("#error_prepare_exam").show();
-				$("#exam_list").hide();
+			if (data == "No group/item found") {
+				console.log("No group/item found");
+				$("#error_prepare_delivery").show();
+				$("#item_list").hide();
 			
 			} else {
-				$("#error_prepare_exam").hide();
-				$("#exam_list").show();
+				$("#error_prepare_delivery").hide();
+				$("#item_list").show();
 				$("#take_form").hide(); 
 			}
 
@@ -160,9 +176,9 @@ app.controller('appController', function ($scope, appFactory) {
 	}
 
 
-	$scope.beforeDeliveryItem = function (exam) {
+	$scope.beforeDeliveryItem = function (item) {
 		        
-          if (exam.rate != "") {
+          if (item.rate != "") {
 			$("#takeTheTestId").hide();	 
 			$("#take_form").hide(); 
 		  } else {
@@ -170,7 +186,7 @@ app.controller('appController', function ($scope, appFactory) {
 			$("#take_form").show();
 			$("#success_exam").hide();
 		  }
-		  $scope.examcase = exam;
+		  $scope.examcase = item;
 	}
 
 	$scope.deliveryItem = function () {

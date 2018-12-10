@@ -512,10 +512,10 @@ func (s *SmartContract) prepareForDelivery(APIstub shim.ChaincodeStubInterface, 
 	buffer.WriteString("]")
 
 	if bArrayMemberAlreadyWritten == false {
-		return shim.Error("No group/course found")
+		return shim.Error("No group/item found")
 	}
 
-	fmt.Printf("- prepareForExam:\n%s\n", buffer.String())
+	fmt.Printf("- prepareForDelivery:\n%s\n", buffer.String())
 
 	return shim.Success(buffer.Bytes())
 

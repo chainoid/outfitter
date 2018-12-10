@@ -74,13 +74,13 @@
 
       <div class="form-group">
         <label>Query Fighter's Record</label><br>
-        <h5 style="color:red;margin-bottom:2%" id="error_student_record">Error: Record(s) for selected user not found</h5>
+        <h5 style="color:red;margin-bottom:2%" id="error_user_record">Error: Record(s) for selected user not found</h5>
                Enter a fighter ID: <input id="studentName" class="form-control input-field" type="text" placeholder="Ex: 365A858149C6E2D1" ng-model="id">
 
-        <input id="getUserRecordId" type="submit" value="Query" class="btn btn-primary" ng-click="getUserRecord()">
+        <input id="getUserRecordId" type="submit" value="Query" class="btn btn-success" ng-click="getUserRecord()">
         </div>
 
-        <table id="student_record" class="table" align="center">
+        <table id="user_record" class="table" align="center">
 
           <tr>
             <th>Record type</th>
@@ -91,18 +91,18 @@
           </tr>
   
           <tr>
-            <td>{{student_record.recordType}}</td>
-            <td>{{student_record.groupName}}</td>
-            <td>{{student_record.studentId}}</td>
-            <td>{{student_record.studentName}}</td>
-            <td>{{student_record.registerTS}}</td> 
+            <td>{{user_record.recordType}}</td>
+            <td>{{user_record.groupName}}</td>
+            <td>{{user_record.studentId}}</td>
+            <td>{{user_record.studentName}}</td>
+            <td>{{user_record.registerTS}}</td> 
           </tr>
         </table>
 
-      <table id="student_record2" class="table" align="center">
+      <table id="user_record2" class="table" align="center">
 
         <tr >
-          <th>TestID</th>
+          <th>Item Id</th>
           <th>Figther</th> 
           <th>Item</th>
           <th>Deliveryman</th>
@@ -112,9 +112,9 @@
           <th>Description</th> 
         </tr>
 
-        <tr ng-repeat="record in student_record.recordList">
+        <tr ng-repeat="record in user_record.recordList">
           <td>{{record.testId}}</td>
-          <td>{{student_record.studentName}}</td> 
+          <td>{{user_record.studentName}}</td> 
           <td>{{record.course}}</td>
           <td>{{record.teacher}}</td>
           <td>{{record.assignedTS}}</td>
@@ -124,10 +124,19 @@
         </tr>
       </table>
 
-      <p><a href="index.html">Back to Main Page</a></p>
-      <p><a href="intendant.html">Intendant Page</a></p>
-      <p><a href="deliveryman.html">Deliveryman Page</a></p>
+      <div class="dropdown">
+        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Switch to Page
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="index.html"> Main</a> <br/>
+          <a class="dropdown-item" href="intendant.html"> Intendant</a> <br/>
+          <a class="dropdown-item" href="deliveryman.html"> Deliveryman</a> <br/>
+        </div>
+      </div>
 
+      <br/>
+      
     </div>
   </body>
     <!-- requiring the angular page -->

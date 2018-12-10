@@ -766,7 +766,7 @@ return{
 								   res.json(JSON.parse(query_responses[0].toString()));
 								} else {
 									console.log("No payloads were returned from query");
-						            res.send("Student record not found")
+						            res.send("User record not found")
 								}
 								//res.send(query_responses[0].toString())
 						}
@@ -776,7 +776,7 @@ return{
 				}
 		}).catch((err) => {
 				console.error('Failed to query successfully :: ' + err);
-				res.send("Student record not found")
+				res.send("User record not found")
 		});
 	},
 
@@ -844,7 +844,7 @@ return{
 				if (query_responses && query_responses.length == 1) {
 						if (query_responses[0] instanceof Error) {
 								console.error("error from query = ", query_responses[0]);
-								res.send("No group/course found")
+								res.send("No group/item found")
 
 						} else {
 								console.log("Response is ", query_responses[0].toString());
@@ -853,11 +853,11 @@ return{
 						}
 				} else {
 						console.log("No payloads were returned from query");
-						res.send("No group/course found")
+						res.send("No group/item found")
 				}
 		}).catch((err) => {
 				console.error('Failed to query successfully :: ' + err);
-				res.send("No group/course found")
+				res.send("No group/item found")
 		});
 	},
 
