@@ -38,32 +38,32 @@ const (
 type SmartContract struct {
 }
 
-/* Define Student structure, with several properties.
+/* Define UserRecord structure, with several properties.
 Structure tags are used by encoding/json library
 */
-type StudentRecord struct {
-	RecordType  string        `json:"recordType"`
-	GroupName   string        `json:"groupName"`
-	StudentId   string        `json:"studentId"`
-	StudentName string        `json:"studentName"`
-	Description string        `json:"description"`
-	RegisterTS  string        `json:"registerTS"`
-	RecordList  []StudentTest `json:"recordList"`
+type UserRecord struct {
+	RecordType  string     `json:"recordType"`
+	GroupName   string     `json:"groupName"`
+	UserId      string     `json:"userId"`
+	UserName    string     `json:"userName"`
+	Description string     `json:"description"`
+	RegisterTS  string     `json:"registerTS"`
+	RecordList  []UserItem `json:"recordList"`
 }
 
-/* Define Student structure, with several properties.
+/* Define User structure, with several properties.
 Structure tags are used by encoding/json library
 */
-type Student struct {
+type User struct {
 	StudentId   string `json:"studentId"`
 	StudentName string `json:"studentName"`
 	GroupName   string `json:"groupName"`
 }
 
-/* Define Student Test structure, with several properties
+/* Define User Test structure, with several properties
 Structure tags are used by encoding/json library
 */
-type StudentTest struct {
+type UserItem struct {
 	StestId     string `json:"testId"`
 	Group       string `json:"group"`
 	Course      string `json:"course"`
@@ -122,16 +122,16 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
  * Will add group and student records to our network
  */
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
-	stests := []StudentRecord{
-		StudentRecord{RecordType: "G", GroupName: "AB17", Description: "Desc AB17"},
-		StudentRecord{RecordType: "G", GroupName: "AB18", Description: "Desc AB18"},
-		StudentRecord{RecordType: "G", GroupName: "AB19", Description: "Desc AB19"},
-		StudentRecord{RecordType: "G", GroupName: "AB20", Description: "Desc AB20"},
+	stests := []UserRecord{
+		UserRecord{RecordType: "G", GroupName: "AB17", Description: "Desc AB17"},
+		UserRecord{RecordType: "G", GroupName: "AB18", Description: "Desc AB18"},
+		UserRecord{RecordType: "G", GroupName: "AB19", Description: "Desc AB19"},
+		UserRecord{RecordType: "G", GroupName: "AB20", Description: "Desc AB20"},
 
-		StudentRecord{RecordType: "S", GroupName: "AB17", StudentId: "AB1701", StudentName: "Fighter 1701", RegisterTS: time.Now().Format(time.RFC3339), Description: "Desc 1701"},
-		StudentRecord{RecordType: "S", GroupName: "AB17", StudentId: "AB1702", StudentName: "Fighter 1702", RegisterTS: time.Now().Format(time.RFC3339), Description: "Desc 1702"},
-		StudentRecord{RecordType: "S", GroupName: "AB17", StudentId: "AB1703", StudentName: "Fighter 1703", RegisterTS: time.Now().Format(time.RFC3339), Description: "Desc 1703"},
-		StudentRecord{RecordType: "S", GroupName: "AB17", StudentId: "AB1704", StudentName: "Fighter 1704", RegisterTS: time.Now().Format(time.RFC3339), Description: "Desc 1704"},
+		UserRecord{RecordType: "S", GroupName: "AB17", UserId: "AB1701", UserName: "Fighter 1701", RegisterTS: time.Now().Format(time.RFC3339), Description: "Desc 1701"},
+		UserRecord{RecordType: "S", GroupName: "AB17", UserId: "AB1702", UserName: "Fighter 1702", RegisterTS: time.Now().Format(time.RFC3339), Description: "Desc 1702"},
+		UserRecord{RecordType: "S", GroupName: "AB17", UserId: "AB1703", UserName: "Fighter 1703", RegisterTS: time.Now().Format(time.RFC3339), Description: "Desc 1703"},
+		UserRecord{RecordType: "S", GroupName: "AB17", UserId: "AB1704", UserName: "Fighter 1704", RegisterTS: time.Now().Format(time.RFC3339), Description: "Desc 1704"},
 	}
 
 	i := 0
@@ -174,12 +174,12 @@ func (s *SmartContract) queryAllGroups(APIstub shim.ChaincodeStubInterface) sc.R
 		}
 
 		// Create an object
-		studentRecord := StudentRecord{}
+		userRecord := UserRecord{}
 		// Unmarshal record to stest object
-		json.Unmarshal(queryResponse.Value, &studentRecord)
+		json.Unmarshal(queryResponse.Value, &userRecord)
 
 		// Add only filtered by RecordType as Group records
-		if studentRecord.RecordType == "G" {
+		if userRecord.RecordType == "G" {
 
 			// Add comma before array members,suppress it for the first array member
 			if bArrayMemberAlreadyWritten == true {
@@ -214,7 +214,7 @@ func (s *SmartContract) addGroup(APIstub shim.ChaincodeStubInterface, args []str
 		return shim.Error("Incorrect number of arguments. Expecting 4")
 	}
 
-	var groupRecord = StudentRecord{RecordType: "G", GroupName: args[0], Description: args[1]}
+	var groupRecord = UserRecord{RecordType: "G", GroupName: args[0], Description: args[1]}
 
 	groupRecordAsBytes, _ := json.Marshal(groupRecord)
 	err := APIstub.PutState(fmt.Sprintf("%016d", rand.Int63n(1e16)), groupRecordAsBytes)
@@ -236,11 +236,11 @@ func (s *SmartContract) addUser(APIstub shim.ChaincodeStubInterface, args []stri
 	}
 
 	// Fill the user date
-	var studentRecord = StudentRecord{RecordType: "S", StudentId: args[0], StudentName: args[1], GroupName: args[2], Description: args[3], RegisterTS: time.Now().Format(time.RFC3339)}
+	var userRecord = UserRecord{RecordType: "S", UserId: args[0], UserName: args[1], GroupName: args[2], Description: args[3], RegisterTS: time.Now().Format(time.RFC3339)}
 
-	studentRecordAsBytes, _ := json.Marshal(studentRecord)
+	userRecordAsBytes, _ := json.Marshal(userRecord)
 
-	err := APIstub.PutState(fmt.Sprintf("%016d", rand.Int63n(1e16)), studentRecordAsBytes)
+	err := APIstub.PutState(fmt.Sprintf("%016d", rand.Int63n(1e16)), userRecordAsBytes)
 
 	if err != nil {
 		return shim.Error(fmt.Sprintf("Failed to add user to system with id: %s", args[0]))
@@ -279,12 +279,12 @@ func (s *SmartContract) queryAllUsers(APIstub shim.ChaincodeStubInterface) sc.Re
 		}
 
 		// Create an object
-		studentRecord := StudentRecord{}
+		userRecord := UserRecord{}
 		// Unmarshal record to stest object
-		json.Unmarshal(queryResponse.Value, &studentRecord)
+		json.Unmarshal(queryResponse.Value, &userRecord)
 
 		// Add only filtered by RecordType as Group records
-		if studentRecord.RecordType == "S" {
+		if userRecord.RecordType == "S" {
 
 			// Add comma before array members,suppress it for the first array member
 			if bArrayMemberAlreadyWritten == true {
@@ -357,19 +357,19 @@ func (s *SmartContract) generateSetForGroup(APIstub shim.ChaincodeStubInterface,
 		}
 
 		// Create an object
-		studentRecord := StudentRecord{}
+		userRecord := UserRecord{}
 		// Unmarshal record to stest object
-		json.Unmarshal(queryResponse.Value, &studentRecord)
+		json.Unmarshal(queryResponse.Value, &userRecord)
 
-		if studentRecord.GroupName == args[0] {
-			var studentTest = StudentTest{StestId: fmt.Sprintf("%X", rand.Int()), Group: args[0], Course: args[1], Teacher: args[2],
+		if userRecord.GroupName == args[0] {
+			var studentTest = UserItem{StestId: fmt.Sprintf("%X", rand.Int()), Group: args[0], Course: args[1], Teacher: args[2],
 				AssignedTS: time.Now().Format(time.RFC1123Z), ExecuteDesc: ""}
 
-			studentRecord.RecordList = append(studentRecord.RecordList, studentTest)
+			userRecord.RecordList = append(userRecord.RecordList, studentTest)
 
-			studentRecordAsBytes, _ := json.Marshal(studentRecord)
+			userRecordAsBytes, _ := json.Marshal(userRecord)
 
-			APIstub.PutState(queryResponse.Key, studentRecordAsBytes)
+			APIstub.PutState(queryResponse.Key, userRecordAsBytes)
 
 			fmt.Println("Added", studentTest)
 		}
@@ -439,18 +439,18 @@ func (s *SmartContract) prepareForDelivery(APIstub shim.ChaincodeStubInterface, 
 		}
 
 		// Create an object
-		studentRecord := StudentRecord{}
+		userRecord := UserRecord{}
 		// Unmarshal record to stest object
-		json.Unmarshal(queryResponse.Value, &studentRecord)
+		json.Unmarshal(queryResponse.Value, &userRecord)
 
 		// Selection by the Record type and Group name
-		if studentRecord.RecordType == "S" && studentRecord.GroupName == args[0] {
+		if userRecord.RecordType == "S" && userRecord.GroupName == args[0] {
 
 			// Iteration by the Course
 
-			for i := 0; i < len(studentRecord.RecordList); i++ {
+			for i := 0; i < len(userRecord.RecordList); i++ {
 
-				if studentRecord.RecordList[i].Course == args[1] {
+				if userRecord.RecordList[i].Course == args[1] {
 
 					// Add comma before array members,suppress it for the first array member
 					if bArrayMemberAlreadyWritten == true {
@@ -464,40 +464,40 @@ func (s *SmartContract) prepareForDelivery(APIstub shim.ChaincodeStubInterface, 
 					buffer.WriteString(", \"Record\":")
 
 					// Put only selected fields
-					buffer.WriteString("{\"studentId\":\"")
+					buffer.WriteString("{\"userId\":\"")
 					buffer.WriteString(queryResponse.Key)
 					buffer.WriteString("\",")
 
 					buffer.WriteString("\"testId\":\"")
-					buffer.WriteString(studentRecord.RecordList[i].StestId)
+					buffer.WriteString(userRecord.RecordList[i].StestId)
 					buffer.WriteString("\",")
 
-					buffer.WriteString("\"studentName\":\"")
-					buffer.WriteString(studentRecord.StudentName)
+					buffer.WriteString("\"userName\":\"")
+					buffer.WriteString(userRecord.UserName)
 					buffer.WriteString("\",")
 
 					buffer.WriteString("\"group\":\"")
-					buffer.WriteString(studentRecord.GroupName)
+					buffer.WriteString(userRecord.GroupName)
 					buffer.WriteString("\",")
 
 					buffer.WriteString("\"course\":\"")
-					buffer.WriteString(studentRecord.RecordList[i].Course)
+					buffer.WriteString(userRecord.RecordList[i].Course)
 					buffer.WriteString("\",")
 
 					buffer.WriteString("\"assignedTS\":\"")
-					buffer.WriteString(studentRecord.RecordList[i].AssignedTS)
+					buffer.WriteString(userRecord.RecordList[i].AssignedTS)
 					buffer.WriteString("\",")
 
 					buffer.WriteString("\"teacher\":\"")
-					buffer.WriteString(studentRecord.RecordList[i].Teacher)
+					buffer.WriteString(userRecord.RecordList[i].Teacher)
 					buffer.WriteString("\",")
 
 					buffer.WriteString("\"executeTS\":\"")
-					buffer.WriteString(studentRecord.RecordList[i].ExecuteTS)
+					buffer.WriteString(userRecord.RecordList[i].ExecuteTS)
 					buffer.WriteString("\",")
 
 					buffer.WriteString("\"rate\":\"")
-					buffer.WriteString(studentRecord.RecordList[i].Rate)
+					buffer.WriteString(userRecord.RecordList[i].Rate)
 					buffer.WriteString("\"")
 
 					buffer.WriteString("}")
@@ -533,44 +533,43 @@ func (s *SmartContract) deliveryItem(APIstub shim.ChaincodeStubInterface, args [
 
 	fmt.Printf("- deliveryItem param args[0] :%s  args[1] :%s args[3] :%s\n", args[0], args[1], args[2])
 
-	studentRecordAsBytes, _ := APIstub.GetState(args[0])
+	userRecordAsBytes, _ := APIstub.GetState(args[0])
 
-	if studentRecordAsBytes == nil {
+	if userRecordAsBytes == nil {
 		return shim.Error("Could not locate selected student record")
 	}
 
-	studentRecord := StudentRecord{}
+	userRecord := UserRecord{}
 
-	json.Unmarshal(studentRecordAsBytes, &studentRecord)
+	json.Unmarshal(userRecordAsBytes, &userRecord)
 
 	// Looking for selected test by course name
 RecordListLoop:
 
-	for i := 0; i < len(studentRecord.RecordList); i++ {
+	for i := 0; i < len(userRecord.RecordList); i++ {
 
-		if studentRecord.RecordList[i].Course == args[1] {
+		if userRecord.RecordList[i].Course == args[1] {
 
-			if studentRecord.RecordList[i].Rate != "" {
-				return shim.Error("Selected test already passed.")
+			if userRecord.RecordList[i].Rate != "" {
+				return shim.Error("Selected item already delivered.")
 			}
 
-			studentRecord.RecordList[i].Rate = args[2]
-			studentRecord.RecordList[i].ExecuteTS = time.Now().Format(time.RFC1123Z)
-			//studentRecord.RecordList[i].ExecuteDesc = args[3]
+			userRecord.RecordList[i].Rate = args[2]
+			userRecord.RecordList[i].ExecuteTS = time.Now().Format(time.RFC1123Z)
 
-			studentRecordAsBytes, _ := json.Marshal(studentRecord)
+			userRecordAsBytes, _ := json.Marshal(userRecord)
 
-			err := APIstub.PutState(args[0], studentRecordAsBytes)
+			err := APIstub.PutState(args[0], userRecordAsBytes)
 
 			if err != nil {
-				return shim.Error(fmt.Sprintf("Failed to change status of student record %s", args[0]))
+				return shim.Error(fmt.Sprintf("Failed to change status of item record %s", args[0]))
 			}
 
 			break RecordListLoop
 		}
 	}
 
-	return shim.Success(studentRecordAsBytes)
+	return shim.Success(userRecordAsBytes)
 }
 
 /*

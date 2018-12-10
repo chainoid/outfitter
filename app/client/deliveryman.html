@@ -100,7 +100,7 @@
           <td>{{item.Key}}</td>
           <td>{{item.testId}}</td>
           <td>{{item.group}}</td>
-          <td>{{item.studentName}}</td>
+          <td>{{item.userName}}</td>
           <td>{{item.course}}</td>
           <td>{{item.teacher}}</td>
           <td>{{item.assignedTS}}</td>
@@ -113,12 +113,12 @@
 
       <div class="form-group" id="take_form">
         <label>Accept the delivery</label><br>
-        <h5 style="color:red;margin-bottom:2%" id="error_exam_source">Error: Please enter a valid ID/item data for UNDELIVERED item</h5>
+        <h5 style="color:red;margin-bottom:2%" id="error_item_source">Error: Please enter a valid ID/item data for UNDELIVERED item</h5>
         <!--h5 style="color:red;margin-bottom:2%"   id="error_old_exam">Error: The exam already passed.</h5-->
         <h5 style="color:green;margin-bottom:2%" id="success_exam">Congratulation: The delivery has been approved!</h5>
-         Enter a fighter unique Id: <input id="createName" class="form-control input-field" type="text" placeholder="Ex: AA01" ng-model="examcase.studentId">
-         Enter a item name: <input class="form-control input-field" type="text" placeholder="Ex: Red Hat" ng-model="examcase.course">
-         Enter an item size:   <input class="form-control input-field" type="text" placeholder="Ex: 5" ng-model="examcase.rate">
+         Enter a fighter unique Id: <input id="createName" class="form-control input-field" type="text" placeholder="Ex: AA01" ng-model="delicase.Key">
+         Enter a item name: <input class="form-control input-field" type="text" placeholder="Ex: Red Hat" ng-model="delicase.course">
+         Enter an item size:   <input class="form-control input-field" type="text" placeholder="Ex: 5" ng-model="delicase.rate">
         <input id="deliveryItemId" type="submit" value="Accept delivery" class="btn btn-warning" ng-click="deliveryItem()">
       </div>
 
@@ -134,7 +134,7 @@
       </div>
       
       <br/>
-      
+
     </div>
   </body>
     <!-- requiring the angular page -->

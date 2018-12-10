@@ -131,8 +131,8 @@
       </tr>
       <tr ng-repeat="user in all_users">
         <td>{{user.Key}}</td>
-        <td>{{user.studentId}}</td>
-        <td>{{user.studentName}}</td>
+        <td>{{user.userId}}</td>
+        <td>{{user.userName}}</td>
         <td>{{user.groupName}}</td>
         <td>{{user.description}}</td>
         <td>{{user.registerTS}}</td>
@@ -148,9 +148,9 @@
         to repository!</h5>
 
       Enter a fighter Id ( or scan the QR/token ): <input id="createId" class="form-control input-field" type="text"
-        placeholder="Ex: A5V7A01" ng-model="user.studentId">
-      Enter a fighter name: <input id="studentName" class="form-control input-field" name="assetSelect2" type="text"
-        placeholder="Ex: Smith" ng-model="user.studentName">
+        placeholder="Ex: A5V7A01" ng-model="user.userId">
+      Enter a fighter name: <input id="userName" class="form-control input-field" name="assetSelect2" type="text"
+        placeholder="Ex: Smith" ng-model="user.userName">
       Enter a group name: <input id="groupName" class="form-control input-field" name="assetSelect3" type="text"
         placeholder="Ex: AB01" ng-model="user.groupName">
       Enter a description: <input id="groupDesc" class="form-control input-field" type="text" placeholder="Ex: Description"
@@ -187,7 +187,7 @@
     </div>
     
     <br/>
-    
+
 </body>
 
 <!-- requiring the angular page -->

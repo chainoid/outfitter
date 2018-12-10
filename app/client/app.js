@@ -20,7 +20,8 @@ app.controller('appController', function ($scope, appFactory) {
 	$("#success_generated").hide();
 	$("#error_generated").hide();
 
-	//
+	// Deliveryman page
+	$("#error_item_source").hide();
 
 	$("#error_query").hide();
 	$("#error_sender").hide();
@@ -31,7 +32,7 @@ app.controller('appController', function ($scope, appFactory) {
 	$("#error_student_record").hide();
 	$("#item_list").hide();
 	
-	$("#error_exam_source").hide();
+	
 	$("#error_old_exam").hide();
 	$("#success_exam").hide();
 
@@ -186,20 +187,20 @@ app.controller('appController', function ($scope, appFactory) {
 			$("#take_form").show();
 			$("#success_exam").hide();
 		  }
-		  $scope.examcase = item;
+		  $scope.delicase = item;
 	}
 
 	$scope.deliveryItem = function () {
 
-		var examcase = $scope.examcase;
+		var delicase = $scope.delicase;
 
-		appFactory.deliveryItem(examcase, function (data) {
+		appFactory.deliveryItem(delicase, function (data) {
 
-			if (data == "Could not locate unpassed test") {
-				$("#error_exam_source").show();
+			if (data == "Could not locate undelivered item") {
+				$("#error_item_source").show();
 				$("#success_exam").hide();
 			} else {	
-				$("#error_exam_source").hide();
+				$("#error_item_source").hide();
 				$("#success_exam").show();
 			}
 			
@@ -235,9 +236,9 @@ app.factory('appFactory', function ($http) {
 
 	factory.addUser = function (data, callback) {
 
-		var student = data.studentId + "-" + data.studentName + "-" + data.groupName + "-" + data.description;
+		var user = data.userId + "-" + data.userName + "-" + data.groupName + "-" + data.description;
 
-		$http.get('/add_user/' + student).success(function (output) {
+		$http.get('/add_user/' + user).success(function (output) {
 			callback(output)
 		});
 	}
@@ -275,7 +276,7 @@ app.factory('appFactory', function ($http) {
 
 	factory.deliveryItem = function (input, callback) {
 
-		var params = input.studentId + "-" + input.course + "-" + input.rate;
+		var params = input.userId + "-" + input.course + "-" + input.rate;
 
 		$http.get('/delivery_item/' + params).success(function (output) {
 			callback(output)

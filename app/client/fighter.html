@@ -93,8 +93,8 @@
           <tr>
             <td>{{user_record.recordType}}</td>
             <td>{{user_record.groupName}}</td>
-            <td>{{user_record.studentId}}</td>
-            <td>{{user_record.studentName}}</td>
+            <td>{{user_record.userId}}</td>
+            <td>{{user_record.userName}}</td>
             <td>{{user_record.registerTS}}</td> 
           </tr>
         </table>
@@ -114,7 +114,7 @@
 
         <tr ng-repeat="record in user_record.recordList">
           <td>{{record.testId}}</td>
-          <td>{{user_record.studentName}}</td> 
+          <td>{{user_record.userName}}</td> 
           <td>{{record.course}}</td>
           <td>{{record.teacher}}</td>
           <td>{{record.assignedTS}}</td>
@@ -136,7 +136,7 @@
       </div>
 
       <br/>
-      
+
     </div>
   </body>
     <!-- requiring the angular page -->

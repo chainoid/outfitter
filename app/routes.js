@@ -13,7 +13,7 @@ module.exports = function(app){
   });
 
   // The cum-rec area
-  app.get('/add_user/:student', function(req, res){
+  app.get('/add_user/:user', function(req, res){
     controller.add_user(req, res);
   });
   app.get('/query_all_users', function(req, res){
@@ -28,7 +28,7 @@ module.exports = function(app){
   app.get('/prepare_for_delivery/:exam', function(req, res){
       controller.prepare_for_delivery(req, res);
   });
-  app.get('/delivery_item/:examcase', function(req, res){
+  app.get('/delivery_item/:delicase', function(req, res){
       controller.delivery_item(req, res);
   });
 

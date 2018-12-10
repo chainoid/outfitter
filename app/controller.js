@@ -253,11 +253,11 @@ return{
 
 		var fabric_client = new Fabric_Client();
 
-		var array = req.params.student.split("-");
+		var array = req.params.user.split("-");
 		console.log(array);
 
-		var studentId   = array[0]
-		var studentName = array[1]
+		var userId      = array[0]
+		var userName    = array[1]
 		var groupName   = array[2]
 		var description = array[3]
 
@@ -305,7 +305,7 @@ return{
 				const request = {
 						chaincodeId: 'cum-record',
 						fcn: 'addUser',
-						args: [studentId, studentName, groupName, description],
+						args: [userId, userName, groupName, description],
 						chainId: 'mychannel',
 						txId: tx_id
 				};
@@ -863,11 +863,13 @@ return{
 
 	delivery_item: function(req, res){
 		
-		console.log("Put a timestamp of exam, rate the student, Params = " + req.params.examcase );
+		console.log("Put a timestamp of delivery, add details, Params = " + req.params.delicase );
 
 		var fabric_client = new Fabric_Client();
 
-		var array   = req.params.examcase.split("-");
+		var array   = req.params.delicase.split("-");
+
+		console.log(array);
 
 		var key     = array[0];
 		var course  = array[1];
