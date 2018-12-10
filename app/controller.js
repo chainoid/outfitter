@@ -481,9 +481,9 @@ return{
 		var array = req.params.generator.split("-");
 		console.log(array);
 
-		var groupName = array[0]
-		var courseName = array[1]
-		var teacherName = array[2]
+		var groupName   = array[0]
+		var itemName    = array[1]
+		var deliveryMan = array[2]
 		
 		var fabric_client = new Fabric_Client();
 
@@ -532,7 +532,7 @@ return{
 		        //targets : --- letting this default to the peers assigned to the channel
 		        chaincodeId: 'cum-record',
 		        fcn: 'generateSetForGroup',
-		        args: [groupName,  courseName, teacherName ],
+		        args: [groupName,  itemName, deliveryMan ],
 		        chainId: 'mychannel',
 		        txId: tx_id
 		    };
@@ -871,9 +871,9 @@ return{
 
 		console.log(array);
 
-		var key     = array[0];
-		var course  = array[1];
-		var rate    = array[2];
+		var key      = array[0];
+		var itemName = array[1];
+		var rate     = array[2];
 
 		// setup the fabric network
 		var channel = fabric_client.newChannel('mychannel');
@@ -919,7 +919,7 @@ return{
 		        //targets : --- letting this default to the peers assigned to the channel
 		        chaincodeId: 'cum-record',
 		        fcn: 'deliveryItem',
-		        args: [key, course, rate],
+		        args: [key, itemName, rate],
 		        chainId: 'mychannel',
 		        txId: tx_id
 		    };

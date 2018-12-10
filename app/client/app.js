@@ -252,7 +252,7 @@ app.factory('appFactory', function ($http) {
 	
 	factory.generateSetForGroup = function (generator, callback) {
 
-		var generator = generator.groupName + "-" + generator.courseName + "-" + generator.teacherName;
+		var generator = generator.groupName + "-" + generator.itemName + "-" + generator.deliveryMan;
 
 		$http.get('/generate_set_for_group/' + generator).success(function (output) {
 			callback(output)
@@ -276,7 +276,7 @@ app.factory('appFactory', function ($http) {
 
 	factory.deliveryItem = function (input, callback) {
 
-		var params = input.userId + "-" + input.course + "-" + input.rate;
+		var params = input.userId + "-" + input.itemName + "-" + input.rate;
 
 		$http.get('/delivery_item/' + params).success(function (output) {
 			callback(output)

@@ -64,14 +64,14 @@ type User struct {
 Structure tags are used by encoding/json library
 */
 type UserItem struct {
-	StestId     string `json:"testId"`
-	Group       string `json:"group"`
-	Course      string `json:"course"`
-	Teacher     string `json:"teacher"`
-	AssignedTS  string `json:"assignedTS"`
-	Rate        string `json:"rate"`
-	ExecuteTS   string `json:"executeTS"`
-	ExecuteDesc string `json:"executeDesc"`
+	ItemId       string `json:"itemId"`
+	Group        string `json:"group"`
+	ItemName     string `json:"itemName"`
+	DeliveryMan  string `json:"deliveryMan"`
+	AssignedTS   string `json:"assignedTS"`
+	Rate         string `json:"rate"`
+	DeliveryTS   string `json:"deliveryTS"`
+	DeliveryDesc string `json:"deliveryDesc"`
 }
 
 /*
@@ -362,16 +362,16 @@ func (s *SmartContract) generateSetForGroup(APIstub shim.ChaincodeStubInterface,
 		json.Unmarshal(queryResponse.Value, &userRecord)
 
 		if userRecord.GroupName == args[0] {
-			var studentTest = UserItem{StestId: fmt.Sprintf("%X", rand.Int()), Group: args[0], Course: args[1], Teacher: args[2],
-				AssignedTS: time.Now().Format(time.RFC1123Z), ExecuteDesc: ""}
+			var deliveryItem = UserItem{ItemId: fmt.Sprintf("%X", rand.Int()), Group: args[0], ItemName: args[1], DeliveryMan: args[2],
+				AssignedTS: time.Now().Format(time.RFC1123Z), DeliveryDesc: ""}
 
-			userRecord.RecordList = append(userRecord.RecordList, studentTest)
+			userRecord.RecordList = append(userRecord.RecordList, deliveryItem)
 
 			userRecordAsBytes, _ := json.Marshal(userRecord)
 
 			APIstub.PutState(queryResponse.Key, userRecordAsBytes)
 
-			fmt.Println("Added", studentTest)
+			fmt.Println("Added", deliveryItem)
 		}
 
 	}
@@ -450,7 +450,7 @@ func (s *SmartContract) prepareForDelivery(APIstub shim.ChaincodeStubInterface, 
 
 			for i := 0; i < len(userRecord.RecordList); i++ {
 
-				if userRecord.RecordList[i].Course == args[1] {
+				if userRecord.RecordList[i].ItemName == args[1] {
 
 					// Add comma before array members,suppress it for the first array member
 					if bArrayMemberAlreadyWritten == true {
@@ -468,8 +468,8 @@ func (s *SmartContract) prepareForDelivery(APIstub shim.ChaincodeStubInterface, 
 					buffer.WriteString(queryResponse.Key)
 					buffer.WriteString("\",")
 
-					buffer.WriteString("\"testId\":\"")
-					buffer.WriteString(userRecord.RecordList[i].StestId)
+					buffer.WriteString("\"itemId\":\"")
+					buffer.WriteString(userRecord.RecordList[i].ItemId)
 					buffer.WriteString("\",")
 
 					buffer.WriteString("\"userName\":\"")
@@ -480,20 +480,20 @@ func (s *SmartContract) prepareForDelivery(APIstub shim.ChaincodeStubInterface, 
 					buffer.WriteString(userRecord.GroupName)
 					buffer.WriteString("\",")
 
-					buffer.WriteString("\"course\":\"")
-					buffer.WriteString(userRecord.RecordList[i].Course)
+					buffer.WriteString("\"itemName\":\"")
+					buffer.WriteString(userRecord.RecordList[i].ItemName)
 					buffer.WriteString("\",")
 
 					buffer.WriteString("\"assignedTS\":\"")
 					buffer.WriteString(userRecord.RecordList[i].AssignedTS)
 					buffer.WriteString("\",")
 
-					buffer.WriteString("\"teacher\":\"")
-					buffer.WriteString(userRecord.RecordList[i].Teacher)
+					buffer.WriteString("\"deliveryMan\":\"")
+					buffer.WriteString(userRecord.RecordList[i].DeliveryMan)
 					buffer.WriteString("\",")
 
-					buffer.WriteString("\"executeTS\":\"")
-					buffer.WriteString(userRecord.RecordList[i].ExecuteTS)
+					buffer.WriteString("\"deliveryTS\":\"")
+					buffer.WriteString(userRecord.RecordList[i].DeliveryTS)
 					buffer.WriteString("\",")
 
 					buffer.WriteString("\"rate\":\"")
@@ -531,7 +531,7 @@ func (s *SmartContract) deliveryItem(APIstub shim.ChaincodeStubInterface, args [
 		return shim.Error("Incorrect number of arguments. Expecting 3")
 	}
 
-	fmt.Printf("- deliveryItem param args[0] :%s  args[1] :%s args[3] :%s\n", args[0], args[1], args[2])
+	fmt.Printf("- deliveryItem param args[0] :%s  args[1] :%s args[2] :%s\n", args[0], args[1], args[2])
 
 	userRecordAsBytes, _ := APIstub.GetState(args[0])
 
@@ -548,14 +548,14 @@ RecordListLoop:
 
 	for i := 0; i < len(userRecord.RecordList); i++ {
 
-		if userRecord.RecordList[i].Course == args[1] {
+		if userRecord.RecordList[i].ItemName == args[1] {
 
 			if userRecord.RecordList[i].Rate != "" {
 				return shim.Error("Selected item already delivered.")
 			}
 
 			userRecord.RecordList[i].Rate = args[2]
-			userRecord.RecordList[i].ExecuteTS = time.Now().Format(time.RFC1123Z)
+			userRecord.RecordList[i].DeliveryTS = time.Now().Format(time.RFC1123Z)
 
 			userRecordAsBytes, _ := json.Marshal(userRecord)
 
