@@ -34,7 +34,7 @@ app.controller('appController', function ($scope, appFactory) {
 	
 	
 	$("#error_old_exam").hide();
-	$("#success_exam").hide();
+	$("#success_delivery").hide();
 
 	// Fighter page	
 	$("#error_user_record").hide();
@@ -185,7 +185,7 @@ app.controller('appController', function ($scope, appFactory) {
 		  } else {
 			$("#takeTheTestId").show();	
 			$("#take_form").show();
-			$("#success_exam").hide();
+			$("#success_delivery").hide();
 		  }
 		  $scope.delicase = item;
 	}
@@ -198,10 +198,10 @@ app.controller('appController', function ($scope, appFactory) {
 
 			if (data == "Could not locate undelivered item") {
 				$("#error_item_source").show();
-				$("#success_exam").hide();
+				$("#success_delivery").hide();
 			} else {	
 				$("#error_item_source").hide();
-				$("#success_exam").show();
+				$("#success_delivery").show();
 			}
 			
 			$scope.exam_result = data;
