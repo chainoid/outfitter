@@ -75,6 +75,19 @@ type UserItem struct {
 }
 
 /*
+ *  The random Id generator 
+*/
+func randomId() string {
+
+	// Call Seed, using current nanoseconds.
+	rand.Seed(int64(time.Now().Nanosecond()))
+	// Random int will be different each program execution.
+	value := rand.Int63()
+  
+   return  fmt.Sprintf("%X", value) 
+  }
+
+/*
  * The Init method *
  called when the Smart Contract "elza-rec" is instantiated by the network
  * Best practice is to have any Ledger initialization in separate function
@@ -138,7 +151,7 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 	for i < len(stests) {
 		fmt.Println("i is ", i)
 		stestAsBytes, _ := json.Marshal(stests[i])
-		APIstub.PutState(fmt.Sprintf("%016d", rand.Int63n(1e16)), stestAsBytes)
+		APIstub.PutState(randomId(), stestAsBytes)
 		fmt.Println("Added", stests[i])
 		i = i + 1
 	}
@@ -217,7 +230,7 @@ func (s *SmartContract) addGroup(APIstub shim.ChaincodeStubInterface, args []str
 	var groupRecord = UserRecord{RecordType: "G", GroupName: args[0], Description: args[1]}
 
 	groupRecordAsBytes, _ := json.Marshal(groupRecord)
-	err := APIstub.PutState(fmt.Sprintf("%016d", rand.Int63n(1e16)), groupRecordAsBytes)
+	err := APIstub.PutState(randomId(), groupRecordAsBytes)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("Failed to record new group: %s", args[0]))
 	}
@@ -240,7 +253,7 @@ func (s *SmartContract) addUser(APIstub shim.ChaincodeStubInterface, args []stri
 
 	userRecordAsBytes, _ := json.Marshal(userRecord)
 
-	err := APIstub.PutState(fmt.Sprintf("%016d", rand.Int63n(1e16)), userRecordAsBytes)
+	err := APIstub.PutState(randomId(), userRecordAsBytes)
 
 	if err != nil {
 		return shim.Error(fmt.Sprintf("Failed to add user to system with id: %s", args[0]))
@@ -362,7 +375,7 @@ func (s *SmartContract) generateSetForGroup(APIstub shim.ChaincodeStubInterface,
 		json.Unmarshal(queryResponse.Value, &userRecord)
 
 		if userRecord.GroupName == args[0] {
-			var deliveryItem = UserItem{ItemId: fmt.Sprintf("%X", rand.Int()), Group: args[0], ItemName: args[1], DeliveryMan: args[2],
+			var deliveryItem = UserItem{ItemId: randomId(), Group: args[0], ItemName: args[1], DeliveryMan: args[2],
 				AssignedTS: time.Now().Format(time.RFC1123Z), DeliveryDesc: ""}
 
 			userRecord.RecordList = append(userRecord.RecordList, deliveryItem)
