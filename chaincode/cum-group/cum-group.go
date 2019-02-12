@@ -38,6 +38,20 @@ type Group struct {
 }
 
 /*
+ *  The random Id generator 
+*/
+func randomId() string {
+
+	// Call Seed, using current nanoseconds.
+	rand.Seed(int64(time.Now().Nanosecond()))
+	// Random int will be different each program execution.
+	value := rand.Int63()
+  
+   return  fmt.Sprintf("%X", value) 
+
+  }
+
+/*
  * The Init method *
  called when the Smart Contract "elza-chaincode" is instantiated by the network
  * Best practice is to have any Ledger initialization in separate function
@@ -123,7 +137,7 @@ func (s *SmartContract) addGroup(APIstub shim.ChaincodeStubInterface, args []str
 	var group = Group{GroupId: args[1], GroupName: args[2], GroupDesc: args[3]}
 
 	groupAsBytes, _ := json.Marshal(group)
-	err := APIstub.PutState(fmt.Sprintf("%X", rand.Int()), groupAsBytes)
+	err := APIstub.PutState(randomId(), groupAsBytes)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("Failed to record new group: %s", args[0]))
 	}

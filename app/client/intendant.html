@@ -127,7 +127,6 @@
         <th>Group</th>
         <th>Description</th>
         <th>Register TS</th>
-        <th>Test Record</th>
       </tr>
       <tr ng-repeat="user in all_users">
         <td>{{user.Key}}</td>
@@ -136,7 +135,6 @@
         <td>{{user.groupName}}</td>
         <td>{{user.description}}</td>
         <td>{{user.registerTS}}</td>
-        <td> Test Record </td>
       </tr>
     </table>
 
@@ -147,7 +145,7 @@
       <h5 style="color:green;margin-bottom:2%" id="success_add_user">Congratulation: The new fighter has been added
         to repository!</h5>
 
-      Enter a fighter Id ( or scan the QR/token ): <input id="createId" class="form-control input-field" type="text"
+      Enter a fighter Id ( or scan the QR/token/RFID label ): <input id="createId" class="form-control input-field" type="text"
         placeholder="Ex: A5V7A01" ng-model="user.userId">
       Enter a fighter name: <input id="userName" class="form-control input-field" name="assetSelect2" type="text"
         placeholder="Ex: Smith" ng-model="user.userName">
@@ -175,7 +173,7 @@
      </div>
 
 
-     <div class="dropdown">
+     <div class="dropdown dropup">
       <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Switch to Page
       </button>
